@@ -1,0 +1,197 @@
+LOGIC
+
+1. Query Channel ID by username / channel ID = *
+  Requests) https: //developers.google.com/apis-explorer/#p/youtube/v3/youtube.channels.list?part=snippet%252CcontentDetails%252Cstatistics&forUsername=rladndgussla&hl=ko-KR&_h=4&
+
+  *
+  Returns:
+  *
+  items[0].id *
+  items[0].snippet.title *
+  items[0].snippet.description *
+  items[0].snippet.thumbnails.medium.url *
+  items[0].contentDetails.relatedPlaylists.uploads *
+  items[0].statistics.viewCount *
+  items[0].statistics.subscriberCount *
+  items[0].statistics.videoCount
+
+return example {
+  "kind": "youtube#channelListResponse",
+  "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/7GQ59EjbslThWVbenHHkeTP1MxU\"",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 5
+  },
+  "items": [{
+
+
+    "kind": "youtube#channel",
+    "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/AZpHKHX7nNR_9LlQuoVNnDK88xY\"",
+    "id": "UCpcft4FJXgUjnxWoQYsl7Ug",
+    "snippet": {
+      "title": "고몽",
+      "description": "고몽 페이스북 :  http://facebook.com/gomongyoutube\n고몽 인스타 : @gomongtube\n사생활 인스타 @gomongyoutube\n\u200b\n스토리가 있는 모든 것을 이야기 하는 스토리텔러 고몽입니다.\n1. 한국영화, 외국영화, 독립영화, 예술영화의 리뷰, 프리뷰, 큐레이션\n2. 김시선과 함께하는 오늘밤엔이영화\n3. 미국코믹스, 일본애니메이션의 소개 및 분석\n4. 미드, 영드, 일드 , 한드 추천\n5. 도서, 게임 스토리\n6. 예능\n7. 아이템소개\n8. 약간의 브이로그\n   \n소통 및 비즈니스는 dl_gomong@playlistcorp.com 로 연락 부탁드려요!\n\u200b",
+      "customUrl": "rladndgussla",
+      "publishedAt": "2012-06-21T02:03:06.000Z",
+      "thumbnails": {
+        "default": {
+          "url": "https://yt3.ggpht.com/a-/AN66SAzTMFvEzv92WmEWvbG0jTb8vqbxf9kjfjMAfQ=s88-mo-c-c0xffffffff-rj-k-no",
+          "width": 88,
+          "height": 88
+        },
+        "medium": {
+          "url": "https://yt3.ggpht.com/a-/AN66SAzTMFvEzv92WmEWvbG0jTb8vqbxf9kjfjMAfQ=s240-mo-c-c0xffffffff-rj-k-no",
+          "width": 240,
+          "height": 240
+        },
+        "high": {
+          "url": "https://yt3.ggpht.com/a-/AN66SAzTMFvEzv92WmEWvbG0jTb8vqbxf9kjfjMAfQ=s800-mo-c-c0xffffffff-rj-k-no",
+          "width": 800,
+          "height": 800
+        }
+      },
+      "localized": {
+        "title": "고몽",
+        "description": "고몽 페이스북 :  http://facebook.com/gomongyoutube\n고몽 인스타 : @gomongtube\n사생활 인스타 @gomongyoutube\n\u200b\n스토리가 있는 모든 것을 이야기 하는 스토리텔러 고몽입니다.\n1. 한국영화, 외국영화, 독립영화, 예술영화의 리뷰, 프리뷰, 큐레이션\n2. 김시선과 함께하는 오늘밤엔이영화\n3. 미국코믹스, 일본애니메이션의 소개 및 분석\n4. 미드, 영드, 일드 , 한드 추천\n5. 도서, 게임 스토리\n6. 예능\n7. 아이템소개\n8. 약간의 브이로그\n   \n소통 및 비즈니스는 dl_gomong@playlistcorp.com 로 연락 부탁드려요!\n\u200b"
+      },
+      "country": "KR"
+    },
+    "contentDetails": {
+      "relatedPlaylists": {
+        "uploads": "UUpcft4FJXgUjnxWoQYsl7Ug",
+        "watchHistory": "HL",
+        "watchLater": "WL"
+      }
+    },
+    "statistics": {
+      "viewCount": "145753547",
+      "commentCount": "0",
+      "subscriberCount": "623725",
+      "hiddenSubscriberCount": false,
+      "videoCount": "180"
+    }
+  }]
+}
+
+2. Query upload videos with Channel specific Upload Playlist ID
+  *
+  Request:
+  *
+  GET https: //www.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails&maxResults=50&playlistId=UUpcft4FJXgUjnxWoQYsl7Ug&key={YOUR_API_KEY}
+  *
+  Returns *
+  Items[0].snippet.title *
+  Items[0].snippet.description *
+  Items[0].snippet.thumbnails.standard.url *
+  Items[0].contentDetails.videoID *
+  Items[0].contentDetails.videoPublishedAt
+
+/**
+ * API response
+ */
+{
+  "kind": "youtube#playlistItemListResponse",
+  "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/HpbN4Q14dDvlxHjGFfRShen0Ca8\"",
+  "nextPageToken": "CBkQAA",
+  "pageInfo": {
+    "totalResults": 180,
+    "resultsPerPage": 25
+  },
+  "items": [{
+        "kind": "youtube#playlistItem",
+        "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/IcSPHktqBA5fgfJbtSN4yHJoNu0\"",
+        "id": "VVVwY2Z0NEZKWGdVam54V29RWXNsN1VnLlJUTkJLbW5CM0U4",
+        "snippet": {
+          "publishedAt": "2018-09-30T13:30:00.000Z",
+          "channelId": "UCpcft4FJXgUjnxWoQYsl7Ug",
+          "title": "사지마비에 대한 복수를 하기 위해 신경계를 업그레이드한 남자",
+          "description": "#업그레이드 #블룸하우스 #고몽스토리뷰",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/RTNBKmnB3E8/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/RTNBKmnB3E8/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/RTNBKmnB3E8/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            },
+            "standard": {
+              "url": "https://i.ytimg.com/vi/RTNBKmnB3E8/sddefault.jpg",
+              "width": 640,
+              "height": 480
+            },
+            "maxres": {
+              "url": "https://i.ytimg.com/vi/RTNBKmnB3E8/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            }
+          },
+          "channelTitle": "고몽",
+          "playlistId": "UUpcft4FJXgUjnxWoQYsl7Ug",
+          "position": 0,
+          "resourceId": {
+            "kind": "youtube#video",
+            "videoId": "RTNBKmnB3E8"
+          }
+        },
+        "contentDetails": {
+          "videoId": "RTNBKmnB3E8",
+          "videoPublishedAt": "2018-09-30T13:30:00.000Z"
+        }
+      },
+      {
+        "kind": "youtube#playlistItem",
+        "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/pqD47wW0i59lqbe3Yi04G9bJsIc\"",
+        "id": "VVVwY2Z0NEZKWGdVam54V29RWXNsN1VnLnc1QzFwMVpfZFZF",
+        "snippet": {
+          "publishedAt": "2018-09-30T04:46:11.000Z",
+          "channelId": "UCpcft4FJXgUjnxWoQYsl7Ug",
+          "title": "약혼자를 치어죽인 여성을 납치해서 복수하는 남자들_ 양아치느와르 [고독해3]",
+          "description": "#양아치느와르 #고독해 #고몽독립영화해석\n이 영상은 키노크러쉬로 부터 제공과 사용허가를 받았습니다",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/w5C1p1Z_dVE/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/w5C1p1Z_dVE/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/w5C1p1Z_dVE/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            },
+            "standard": {
+              "url": "https://i.ytimg.com/vi/w5C1p1Z_dVE/sddefault.jpg",
+              "width": 640,
+              "height": 480
+            },
+            "maxres": {
+              "url": "https://i.ytimg.com/vi/w5C1p1Z_dVE/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            }
+          },
+          "channelTitle": "고몽",
+          "playlistId": "UUpcft4FJXgUjnxWoQYsl7Ug",
+          "position": 1,
+          "resourceId": {
+            "kind": "youtube#video",
+            "videoId": "w5C1p1Z_dVE"
+          }
+        },
+        "contentDetails": {
+          "videoId": "w5C1p1Z_dVE",
+          "videoPublishedAt": "2018-09-30T04:46:11.000Z"
+        }
+      },

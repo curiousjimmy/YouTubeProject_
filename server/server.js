@@ -42,43 +42,68 @@ app.get('/channelinfo', (req, res) => {
             /*   console.log(channelItems) OK;
              res.json(channelItems); OK */
 
-            //fetching list of uploaded videos by requesting playlistitem.list API with uploadPlaylistId from channelItems.uploadPlaylistId
-            /*  for (i = 0; i < channelItems.length; i++) {
-                 fetch(`${uploadedVideoUrl}=${channelItems[i].uploadPlaylistId}&key=AIzaSyDd_NS5mL997mj4_FIOqJ6n9lZE8ZuJ2hA`)
-                     .then(response => response.json())
-                     .then(json => {
-                         res.json(json);
-                     });
-             }  */ //error cant set headers after they are sent
 
-            //must replicate below result for every channelItems[i].uploadPlayListID
+           
+            const promiseArray = []
 
-            fetch(`${uploadedVideoUrl}=${channelItems[0].uploadPlaylistId}&key=AIzaSyDd_NS5mL997mj4_FIOqJ6n9lZE8ZuJ2hA`)
-                .then(response => response.json())
-                .then(json => {
-                    channelItems[0].videoItems = [
-                        {
-                            videoId: json.items[0].contentDetails.videoId,
-                            videoTitle: json.items[0].snippet.title,
-                            videoDescription: json.items[0].snippet.description,
-                            videoDate: json.items[0].contentDetails.videoPublishedAt
-                        },
-                        {
-                            videoId: json.items[1].contentDetails.videoId,
-                            videoTitle: json.items[1].snippet.title,
-                            videoDescription: json.items[1].snippet.description,
-                            videoDate: json.items[1].contentDetails.videoPublishedAt
-                        }
-                    ];
-                    res.json(channelItems[0]);
-                });
+            for (i = 0; i < channelItems.length; i++) {
+                // fetch 내부의 then은 fetch가 끝난 시점에서 실행되기 때문에 i 가 for문이 끝난 상태의 값으로 들어가게 된다.
+                // i를 index로 버퍼 저장해줘서 i 값을 유지해줌.
+                ((index) => {
+                    const fetchPromise = fetch(`${uploadedVideoUrl}=${channelItems[index].uploadPlaylistId}&key=AIzaSyDd_NS5mL997mj4_FIOqJ6n9lZE8ZuJ2hA`)
+                        .then(response => response.json())
+                        .then(json => {
+                            const videoItems = [];
+                            for (j = 0; j < json.items.length; j++) {
+                                videoItems.push({
+                                    videoId: json.items[j].contentDetails.videoId,
+                                    videoTitle: json.items[j].snippet.title,
+                                    videoDate: json.items[j].snippet.publishedAt,
+                                    videoThumbnail: json.items[j].snippet.thumbnails.high.url,
+
+                                });
+                            }
+                            console.log(index);
+                            channelItems[index].videoItems = videoItems;
+                        });
+                        promiseArray.push(fetchPromise);
+                })(i);
+            }
+
+            Promise.all(promiseArray).then(() => {
+                res.json(channelItems);
+                // console.log(channelItems);
+            }).catch((err) => {
+                console.log(err)
+            });
+
+
+            // fetch(`${uploadedVideoUrl}=${channelItems[0].uploadPlaylistId}&key=AIzaSyDd_NS5mL997mj4_FIOqJ6n9lZE8ZuJ2hA`)
+            //     .then(response => response.json())
+            //     .then(json => {
+            //         channelItems[0].videoItems = [
+            //             {
+            //                 videoId: json.items[0].contentDetails.videoId,
+            //                 videoTitle: json.items[0].snippet.title,
+            //                 videoDescription: json.items[0].snippet.description,
+            //                 videoDate: json.items[0].contentDetails.videoPublishedAt
+            //             },
+            //             {
+            //                 videoId: json.items[1].contentDetails.videoId,
+            //                 videoTitle: json.items[1].snippet.title,
+            //                 videoDescription: json.items[1].snippet.description,
+            //                 videoDate: json.items[1].contentDetails.videoPublishedAt
+            //             }
+            //         ];
+            //         res.json(channelItems[0]);
+            //     });
 
 
 
         });
 });
 
-//Final json must be like below
+/* //Final json must be like below
 [
     {
         "title": "뭅이",
@@ -102,14 +127,14 @@ app.get('/channelinfo', (req, res) => {
                 "videoDescription": "독실한 기독교 집안에서 자란 평범한 대학생 델마\n그녀는 아냐라는 친구와 만나며 자신에게 숨겨져 있던 초자연적인 힘을 깨닫게 되는데...\n델마는 신인가 마녀인가\n\n모든 것을 자신의 마음대로 바꿀 수 있는 소녀의 차가운 성장기\n영화 ‘델마 (Thelma, 2017)’\n\n영상에도 안내했지만\n스트로브 효과로 눈뽕을 장시간 당할 수 있는 영화 입니다\n관람에 주의하세요!!\n#델마#초능력#미스터리",
                 "videoDate": "2018-09-22T01:30:02.000Z"
             }
-            ...
+            
         ]
     },
 
 
 ]
 
-
+ */
 
 
 
