@@ -23,16 +23,16 @@ const channelUrl = 'https://www.googleapis.com/youtube/v3/channels?part=snippet%
 const uploadedVideoUrl = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails&maxResults=50&playlistId';
 
 //requests with channel ID, returns channel INFO
-app.get('/channelinfo', (req, res) => {
+app.get('/', (req, res) => {
     fetch(`${channelUrl}`)
         .then(response => response.json())
         .then(json => {
             let channelItems = [];
             json.items.forEach(item => {
                 channelItems.push({
-                    title: item.snippet.title,
+                    channelTitle: item.snippet.title,
                     channelDescription: item.snippet.description,
-                    thumbnailURL: item.snippet.thumbnails.medium.url,
+                    channelThumbnailURL: item.snippet.thumbnails.high.url,
                     uploadPlaylistId: item.contentDetails.relatedPlaylists.uploads,
                     channelViewCount: item.statistics.viewCount,
                     channelSubscriberCount: item.statistics.subscriberCount,
@@ -58,8 +58,10 @@ app.get('/channelinfo', (req, res) => {
                                 videoItems.push({
                                     videoId: json.items[j].contentDetails.videoId,
                                     videoTitle: json.items[j].snippet.title,
+                                    videoDescription: json.items[j].snippet.description,
                                     videoDate: json.items[j].snippet.publishedAt,
-                                    videoThumbnail: json.items[j].snippet.thumbnails.high.url,
+                                    videoThumbnailUrl: json.items[j].snippet.thumbnails.high.url,
+                                
 
                                 });
                             }
